@@ -2,6 +2,7 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 	"novanxyz/models"
 	"novanxyz/utils"
 
@@ -46,7 +47,9 @@ func (t *TaskRepository) FindAll(filter map[string]interface{}, page int, size i
 // FindById implements TaskRepository
 func (t *TaskRepository) FindById(taskId uint) (models.Task, error) {
 	var task models.Task
-	result := t.Db.Find(&task, taskId)
+	result := t.Db.Preload("Files").Find(&task, taskId)
+	fmt.Sprintf("%v\n", result)
+
 	if result.RowsAffected == 1 {
 		return task, nil
 	} else {

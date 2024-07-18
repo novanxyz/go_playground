@@ -23,7 +23,7 @@
                 "variable": [
                     {
                         "key": "taskId",
-                        "value": "<integer>",
+                        "value": "{{newTaskId}}",
                         "description": "(Required) task id which the files belong to "
                     }
                 ]

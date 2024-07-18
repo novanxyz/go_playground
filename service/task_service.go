@@ -23,7 +23,7 @@ type TaskServiceInterface interface {
 	AssignTaskFile(taskId uint, uploadedFile *multipart.FileHeader) (uint, error)
 	GetTaskFile(taskId uint, fileId uint) (models.TaskFile, error)
 	DeleteTaskFile(taskId uint, fileId uint) (int, error)
-	GetAllTaskFiles(taskId uint) ([]uint, error)
+	GetAllTaskFiles(taskId uint) ([]*models.TaskFile, error)
 }
 
 type TaskService struct {
@@ -128,7 +128,7 @@ func (t *TaskService) AssignTaskFile(taskId uint, uploadFile *multipart.FileHead
 	content, err := io.ReadAll(fileHandler)
 	utils.ErrorPanic(err)
 
-	taskFile := models.TaskFile{Filename: uploadFile.Filename, Mime: uploadFile.Header.Get("Content-Type"), ParentTask: &task, Content: content}
+	taskFile := models.TaskFile{Filename: uploadFile.Filename, Mime: uploadFile.Header.Get("Content-Type"), TaskId: task.Id, Content: content}
 	affected := t.TaskFileRepository.Save(taskFile)
 	return affected, nil
 }
@@ -145,12 +145,12 @@ func (t *TaskService) DeleteTaskFile(taskId uint, fileId uint) (int, error) {
 	return t.TaskRepository.Update(taskData), nil
 }
 
-func (t *TaskService) GetAllTaskFiles(taskId uint) ([]uint, error) {
+func (t *TaskService) GetAllTaskFiles(taskId uint) ([]*models.TaskFile, error) {
 	task, err := t.TaskRepository.FindById(taskId)
 	utils.ErrorPanic(err)
-	fileIds := garray.MapI(task.Files, func(i int) uint {
-		return task.Files[i].Id
+	taskFiles := garray.MapI(task.Files, func(i int) *models.TaskFile {
+		return task.Files[i]
 	})
 
-	return fileIds, nil
+	return taskFiles, nil
 }

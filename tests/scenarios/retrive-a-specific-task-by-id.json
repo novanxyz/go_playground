@@ -1,5 +1,5 @@
 {
-    "predecessor": "mark-a-specific-task-as-complete-or-incomplete",
+    "predecessor": "upload-a-specific-file-associated-with-a-task",
     "item": {
         "name": "Retrive a specific  task by id.",
         "event": [
@@ -15,6 +15,7 @@
                         "    pm.expect(jsonData.data.id).to.eql(newTaskId);\r",
                         "    pm.expect(jsonData.data.name).to.eql(\"task name update #\"+newTaskId);\r",
                         "    pm.expect(jsonData.data.status).to.eql(\"complete\");\r",
+                        "    pm.expect(jsonData.data.files).to.a(\"array\");\r",
                         "\r",
                         "});"
                     ],

@@ -1,5 +1,5 @@
 {
-    "predecessor": "retrive-a-specific-task-by-id",
+    "predecessor": "mark-a-specific-task-as-complete-or-incomplete",
     "item": {
         "name": "Upload a specific file associated with a task.",
         "event": [
@@ -10,6 +10,9 @@
                         "pm.test(\"Positive\", function () {\r",
                         "    var jsonData = pm.response.json();\r",
                         "    pm.expect(jsonData.code).to.eql(201);\r",
+                        "    pm.expect(jsonData.data.id).to.be.a('number');\r",
+                        "    // pm.expect(jsonData.data.status).to.eql(\"incomplete\");\r",
+                        "    pm.collectionVariables.set(\"newFileId\",jsonData.data.id);\r",
                         "});\r",
                         "\r",
                         ""
@@ -37,7 +40,7 @@
                     {
                         "key": "file",
                         "type": "file",
-                        "src": "/opt/personal/golang_base/tests/sample_data_file.txt"
+                        "src": "///wsl.localhost/Ubuntu/opt/personal/golang_base/tests/sample_data_file.txt"
                     }
                 ]
             },

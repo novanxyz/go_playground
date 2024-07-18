@@ -127,7 +127,7 @@ func (controller *TaskController) Update(ctx *gin.Context) {
 	webResponse := models.Response{
 		Code:   http.StatusOK,
 		Status: "OK",
-		Data:   affected,
+		Data:   affected.ToResponse(),
 	}
 	ctx.Header("Content-Type", "application/json")
 	ctx.JSON(http.StatusOK, webResponse)
@@ -177,10 +177,15 @@ func (controller *TaskController) Mark(ctx *gin.Context) {
 	affected := controller.taskService.Mark(uint(id), status)
 	utils.ErrorPanic(err)
 
-	webResponse := models.Response{
-		Code:   http.StatusOK,
-		Status: "OK",
-		Data:   affected,
+	webResponse := models.Response{Code: 200, Status: "OK", Data: "Not Changed"}
+	if affected > 0 {
+		task, err := controller.taskService.FindById(uint(id))
+		utils.ErrorPanic(err)
+		webResponse = models.Response{
+			Code:   http.StatusOK,
+			Status: "OK",
+			Data:   task.ToResponse(),
+		}
 	}
 	ctx.Header("Content-Type", "application/json")
 	ctx.JSON(http.StatusOK, webResponse)
@@ -198,17 +203,20 @@ func (controller *TaskController) Mark(ctx *gin.Context) {
 // @Router				/tasks/{taskId}/files [post]
 func (controller *TaskController) UploadTaskFile(ctx *gin.Context) {
 	log.Info().Msg("upload task file")
-	taskId := ctx.Param("taskId")
-	status := ctx.Param("status")
-	id, err := strconv.Atoi(taskId)
+	staskId := ctx.Param("taskId")
+
+	file, _ := ctx.FormFile("file")
+
+	taskId, err := strconv.Atoi(staskId)
 	utils.ErrorPanic(err)
 
-	taskResponse := controller.taskService.Mark(uint(id), status)
+	fileId, err := controller.taskService.AssignTaskFile(uint(taskId), file)
+	utils.ErrorPanic(err)
 
 	webResponse := models.Response{
 		Code:   http.StatusCreated,
 		Status: "OK",
-		Data:   taskResponse,
+		Data:   fileId,
 	}
 	ctx.Header("Content-Type", "application/json")
 	ctx.JSON(http.StatusOK, webResponse)

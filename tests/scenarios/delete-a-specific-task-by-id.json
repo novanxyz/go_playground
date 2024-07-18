@@ -21,7 +21,8 @@
                 ],
                 "variable": [
                     {
-                        "key": "taskId"
+                        "key": "taskId",
+                        "value": "{{newTaskId}}"
                     }
                 ]
             },

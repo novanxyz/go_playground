@@ -24,12 +24,12 @@
                 "variable": [
                     {
                         "key": "taskId",
-                        "value": "<integer>",
+                        "value": "{{newTaskId}}",
                         "description": "(Required) task id which file belong to"
                     },
                     {
                         "key": "fileId",
-                        "value": "<integer>",
+                        "value": "{{newFileId}}",
                         "description": "(Required) file id to delete"
                     }
                 ]

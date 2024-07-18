@@ -31,9 +31,14 @@ func getSQLState(err error) {
 }
 
 func ErrorResponseRecovery(ctx *gin.Context, err interface{}) {
-	fmt.Printf("ctx=================: %s\n", ctx.Errors.Last())
-	fmt.Printf("error=================: %T\n", err)
-	ctx.JSON(500, models.Response{Code: 500, Status: "NOK", Data: err})
+	if fmt.Sprint(err) == "task is not found" {
+		fmt.Printf("error=================: %T:%s\n", err, err)
+		ctx.JSON(404, models.Response{Code: 404, Status: "NOK", Data: fmt.Sprint(err)})
+		ctx.Abort()
+	} else {
+		ctx.JSON(500, models.Response{Code: 500, Status: "NOK", Data: fmt.Sprint(err)})
+		ctx.Abort()
+	}
 }
 
 func ResponseErrorHandler() gin.HandlerFunc {

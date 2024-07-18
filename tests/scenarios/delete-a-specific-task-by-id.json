@@ -1,0 +1,71 @@
+{
+    "predecessor": "delete-a-specific-file-associated-with-a-task-by-id",
+    "item": {
+        "name": "Delete a specific task by Id",
+        "request": {
+            "method": "DELETE",
+            "header": [
+                {
+                    "key": "Accept",
+                    "value": "application/json"
+                }
+            ],
+            "url": {
+                "raw": "{{baseUrl}}/tasks/:taskId",
+                "host": [
+                    "{{baseUrl}}"
+                ],
+                "path": [
+                    "tasks",
+                    ":taskId"
+                ],
+                "variable": [
+                    {
+                        "key": "taskId"
+                    }
+                ]
+            },
+            "description": "Remove task data by id."
+        },
+        "response": [
+            {
+                "name": "OK",
+                "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                        {
+                            "key": "Accept",
+                            "value": "application/json"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{baseUrl}}/tasks/:taskId",
+                        "host": [
+                            "{{baseUrl}}"
+                        ],
+                        "path": [
+                            "tasks",
+                            ":taskId"
+                        ],
+                        "variable": [
+                            {
+                                "key": "taskId"
+                            }
+                        ]
+                    }
+                },
+                "status": "OK",
+                "code": 200,
+                "_postman_previewlanguage": "json",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "cookie": [],
+                "body": "{\n  \"code\": \"<integer>\",\n  \"data\": {},\n  \"status\": \"<string>\"\n}"
+            }
+        ]
+    }
+}

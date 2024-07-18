@@ -1,0 +1,22 @@
+{
+    "predecessor": "delete-a-specific-task-by-id",
+    "item": {
+        "name": "swagger-api",
+        "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+                "raw": "api:8001/docs/index.html",
+                "host": [
+                    "api"
+                ],
+                "port": "8001",
+                "path": [
+                    "docs",
+                    "index.html"
+                ]
+            }
+        },
+        "response": []
+    }
+}

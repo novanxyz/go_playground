@@ -1,0 +1,85 @@
+{
+    "predecessor": "upload-a-specific-file-associated-with-a-task",
+    "item": {
+        "name": "Download a specific file associated with a task .",
+        "request": {
+            "method": "GET",
+            "header": [
+                {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                }
+            ],
+            "url": {
+                "raw": "{{baseUrl}}/tasks/:taskId/files/:fileId",
+                "host": [
+                    "{{baseUrl}}"
+                ],
+                "path": [
+                    "tasks",
+                    ":taskId",
+                    "files",
+                    ":fileId"
+                ],
+                "variable": [
+                    {
+                        "key": "taskId",
+                        "value": "<integer>",
+                        "description": "(Required) task id which file belong to"
+                    },
+                    {
+                        "key": "fileId",
+                        "value": "<integer>",
+                        "description": "(Required) file id to delete"
+                    }
+                ]
+            },
+            "description": "Download file stream with content disposition."
+        },
+        "response": [
+            {
+                "name": "OK",
+                "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                        {
+                            "key": "Accept",
+                            "value": "application/octet-stream"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{baseUrl}}/tasks/:taskId/files/:fileId",
+                        "host": [
+                            "{{baseUrl}}"
+                        ],
+                        "path": [
+                            "tasks",
+                            ":taskId",
+                            "files",
+                            ":fileId"
+                        ],
+                        "variable": [
+                            {
+                                "key": "taskId"
+                            },
+                            {
+                                "key": "fileId"
+                            }
+                        ]
+                    }
+                },
+                "status": "OK",
+                "code": 200,
+                "_postman_previewlanguage": "text",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/octet-stream"
+                    }
+                ],
+                "cookie": [],
+                "body": "{\n  \"code\": \"<integer>\",\n  \"data\": {},\n  \"status\": \"<string>\"\n}"
+            }
+        ]
+    }
+}

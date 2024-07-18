@@ -1,0 +1,216 @@
+basePath: /api
+definitions:
+  models.CreateTaskRequest:
+    properties:
+      name:
+        maxLength: 200
+        minLength: 1
+        type: string
+    required:
+    - name
+    type: object
+  models.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      status:
+        type: string
+    type: object
+  models.UpdateTaskRequest:
+    properties:
+      name:
+        maxLength: 200
+        minLength: 1
+        type: string
+      status:
+        type: string
+    required:
+    - name
+    type: object
+host: 172.31.109.101:8001
+info:
+  contact: {}
+  description: A Task service API in Go using Gin framework
+  title: Task Service API
+  version: "1.1"
+paths:
+  /tasks:
+    get:
+      description: Return list of task.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Retrieve a list of task with optional filtering by status (complete|incomplete).
+    post:
+      description: Save task data in Db.
+      parameters:
+      - description: Create task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Create a new task
+  /tasks/{taskId}:
+    delete:
+      description: Remove task data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete a specific task by Id
+    get:
+      description: Return the task which id value matches taskId.
+      parameters:
+      - description: find task by taskId
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Retrive a specific  task by id.
+    put:
+      description: Update task data.
+      parameters:
+      - description: update task by id
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      - description: Update task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Update specific task by Id
+  /tasks/{taskId}/{status}:
+    patch:
+      description: Return the task which Id value matches taskId.
+      parameters:
+      - description: update task status by id
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      - description: mark task as  complete|incomplete status
+        in: path
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Mark a specific task as complete or incomplete.
+  /tasks/{taskId}/files:
+    get:
+      description: Return list of filename and url of files in models.data.
+      parameters:
+      - description: 'task id which the files belong to '
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Get a File assigned to task by Id .
+    post:
+      description: Return file Id of uploaded file, and task it's associated.
+      parameters:
+      - description: update task by id
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      - description: file to be upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Upload a specific file associated with a task.
+  /tasks/{taskId}/files/{fileId}:
+    delete:
+      description: return success if file deleted.
+      parameters:
+      - description: task id which file belong to
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      - description: file id to delete
+        in: path
+        name: fileId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Delete a specific file associated with a task by Id.
+    get:
+      description: Download file stream with content disposition.
+      parameters:
+      - description: task id which file belong to
+        in: path
+        name: taskId
+        required: true
+        type: integer
+      - description: file id to delete
+        in: path
+        name: fileId
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Download a specific file associated with a task .
+swagger: "2.0"

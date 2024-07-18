@@ -1,0 +1,6 @@
+.idea
+.vscode
+pg_data
+.env
+.secrets
+vendor

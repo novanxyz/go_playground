@@ -1,0 +1,7 @@
+{
+    "_postman_id": "fd4fdc9b-c276-490c-afd5-4d45be10aa4d",
+    "name": "Task Service API",
+    "description": "A Task service API in Go using Gin framework",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "5491885"
+}

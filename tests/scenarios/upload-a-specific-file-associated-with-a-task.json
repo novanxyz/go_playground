@@ -1,0 +1,120 @@
+{
+    "predecessor": "retrive-a-specific-task-by-id",
+    "item": {
+        "name": "Upload a specific file associated with a task.",
+        "event": [
+            {
+                "listen": "test",
+                "script": {
+                    "exec": [
+                        "pm.test(\"Positive\", function () {\r",
+                        "    var jsonData = pm.response.json();\r",
+                        "    pm.expect(jsonData.code).to.eql(201);\r",
+                        "});\r",
+                        "\r",
+                        ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                }
+            }
+        ],
+        "request": {
+            "method": "POST",
+            "header": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                },
+                {
+                    "key": "Accept",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "mode": "formdata",
+                "formdata": [
+                    {
+                        "key": "file",
+                        "type": "file",
+                        "src": "/opt/personal/golang_base/tests/sample_data_file.txt"
+                    }
+                ]
+            },
+            "url": {
+                "raw": "{{baseUrl}}/tasks/:taskId/files",
+                "host": [
+                    "{{baseUrl}}"
+                ],
+                "path": [
+                    "tasks",
+                    ":taskId",
+                    "files"
+                ],
+                "variable": [
+                    {
+                        "key": "taskId",
+                        "value": "{{newTaskId}}",
+                        "description": "(Required) update task by id"
+                    }
+                ]
+            },
+            "description": "Return file Id of uploaded file, and task it's associated."
+        },
+        "response": [
+            {
+                "name": "OK",
+                "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/x-www-form-urlencoded"
+                        },
+                        {
+                            "key": "Accept",
+                            "value": "application/json"
+                        }
+                    ],
+                    "body": {
+                        "mode": "urlencoded",
+                        "urlencoded": [
+                            {
+                                "key": "file",
+                                "value": "<string>",
+                                "description": "(Required) file to be upload"
+                            }
+                        ]
+                    },
+                    "url": {
+                        "raw": "{{baseUrl}}/tasks/:taskId/files",
+                        "host": [
+                            "{{baseUrl}}"
+                        ],
+                        "path": [
+                            "tasks",
+                            ":taskId",
+                            "files"
+                        ],
+                        "variable": [
+                            {
+                                "key": "taskId"
+                            }
+                        ]
+                    }
+                },
+                "status": "OK",
+                "code": 200,
+                "_postman_previewlanguage": "json",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "cookie": [],
+                "body": "{\n  \"code\": \"<integer>\",\n  \"data\": {},\n  \"status\": \"<string>\"\n}"
+            }
+        ]
+    }
+}

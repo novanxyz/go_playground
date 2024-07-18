@@ -1,0 +1,71 @@
+services:
+  tests:
+    image: postman/newman
+    volumes:
+      - ./tests/:/etc/newman/
+      - ./tests/scenarios:/etc/newman/scenarios
+      - ./reports:/etc/newman/reports
+    # build: 
+    #   dockerfile_inline: |
+    #     FROM postman/newman:alpine
+    #     RUN npm install -g newman
+    #     RUN npm install -g newman-reporter-htmlextra 
+    command: 
+      run
+      /etc/newman/swagger-api.json
+      -e envvars.json
+      -r cli,junit
+    networks:
+      - local_net
+    depends_on:
+      api:
+        condition: service_healthy
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8001:8001"
+    networks:
+      - local_net
+    env_file: .env
+    restart: unless-stopped
+    healthcheck:
+      test: netstat -ltn | grep :8001
+
+  db:
+    image: mysql:8
+    # command: 
+    # - --default-authentication-plugin=mysql_native_password
+    env_file: .env
+    ports:
+      - 3306:3306
+    networks:
+      - local_net
+    volumes:
+      - mysql_data:/var/lib/mysql_data
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="$$(cat /run/secrets/db-password)" --silent']
+      interval: 10s
+      timeout: 3s
+      retries: 1
+    restart: unless-stopped
+
+
+networks:
+  local_net:
+    driver: host
+
+volumes:
+  pg_data:
+  mysql_data:
+
+secrets:
+  db-password:
+   file: .secrets
+
+# extra_hosts:
+#     - "host.docker.internal:host-gateway"

@@ -1,0 +1,103 @@
+{
+    "predecessor": "update-specific-task-by-id",
+    "item": {
+        "name": "Mark a specific task as complete or incomplete.",
+        "event": [
+            {
+                "listen": "test",
+                "script": {
+                    "exec": [
+                        "pm.test(\"Positive\", function () {\r",
+                        "    var jsonData = pm.response.json();\r",
+                        "    pm.expect(jsonData.code).to.eql(200);\r",
+                        "\r",
+                        "    // var newTaskId = pm.collectionVariables.get(\"newTaskId\");\r",
+                        "    // pm.expect(jsonData.data.Id).to.eql(newTaskId);\r",
+                        "    // pm.expect(jsonData.data.Name).to.eql(\"task name update #\"+newTaskId);\r",
+                        "\r",
+                        "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                }
+            }
+        ],
+        "request": {
+            "method": "PATCH",
+            "header": [
+                {
+                    "key": "Accept",
+                    "value": "application/json"
+                }
+            ],
+            "url": {
+                "raw": "{{baseUrl}}/tasks/:taskId/:status",
+                "host": [
+                    "{{baseUrl}}"
+                ],
+                "path": [
+                    "tasks",
+                    ":taskId",
+                    ":status"
+                ],
+                "variable": [
+                    {
+                        "key": "taskId",
+                        "value": "{{newTaskId}}",
+                        "description": "(Required) update task status by id"
+                    },
+                    {
+                        "key": "status",
+                        "value": "complete",
+                        "description": "(Required) mark task as  complete|incomplete status"
+                    }
+                ]
+            },
+            "description": "Return the task which Id value matches taskId."
+        },
+        "response": [
+            {
+                "name": "OK",
+                "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                        {
+                            "key": "Accept",
+                            "value": "application/json"
+                        }
+                    ],
+                    "url": {
+                        "raw": "{{baseUrl}}/tasks/:taskId/:status",
+                        "host": [
+                            "{{baseUrl}}"
+                        ],
+                        "path": [
+                            "tasks",
+                            ":taskId",
+                            ":status"
+                        ],
+                        "variable": [
+                            {
+                                "key": "taskId"
+                            },
+                            {
+                                "key": "status"
+                            }
+                        ]
+                    }
+                },
+                "status": "OK",
+                "code": 200,
+                "_postman_previewlanguage": "json",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "cookie": [],
+                "body": "{\n  \"code\": \"<integer>\",\n  \"data\": {},\n  \"status\": \"<string>\"\n}"
+            }
+        ]
+    }
+}
